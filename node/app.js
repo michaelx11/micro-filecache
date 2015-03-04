@@ -28,9 +28,14 @@ app.post('/upload', function(req, res) {
   res.end(index + "\n");
 });
 
-app.get('/:id', function(req, res) {
-  model.getFile(req.params.id, req, res);
+app.get('/list', function(req, res) {
+  res.send(model.getList(req, res));
 });
+
+app.get('/:id', function(req, res) {
+  model.getFile(req, res);
+});
+
 
 app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));

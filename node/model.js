@@ -52,7 +52,13 @@ function serveError(res) {
   res.end();
 }
 
-exports.getFile = function(id, req, res) {
+exports.getFile = function(req, res) {
+  var id = req.params.id;
+  if (!id) {
+    serveError(res);
+    return;
+  }
+
   var log = getLogEntries();
   if (id == 'head' | id == 'current') {
     if (log.length > 0) {
@@ -69,3 +75,15 @@ exports.getFile = function(id, req, res) {
     serveError(res);
   }
 }
+
+exports.getList = function() {
+  var logEntries = getLogEntries().reverse();
+  var resultString = '';
+  for (var i in logEntries) {
+    var entry = logEntries[i];
+    var index = logEntries.length - 1 - i;
+    resultString += index + ': ' + entry.filename + '\n';
+  }
+  return resultString;
+}
+
