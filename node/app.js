@@ -23,13 +23,19 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+app.get('/', function(req, res) {
+  res.render('index.html');
+});
+
 app.post('/upload', function(req, res) {
   var index = model.uploadFile(req.files.filedata);
   res.end(index + "\n");
 });
 
 app.get('/list', function(req, res) {
-  res.send(model.getList(req, res));
+  res.setHeader('Content-Type: text/plain'), 
+  res.write(model.getList(req, res));
+  res.end();
 });
 
 app.get('/:id', function(req, res) {
