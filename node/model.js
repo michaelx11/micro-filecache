@@ -19,7 +19,7 @@ function getLogEntries() {
 // returns index
 function appendToLogFile(filename, filesize) {
   fs.appendFileSync("logfile.txt", filename + " -%%- " + filesize + "\n");
-  return getLogEntries().length;
+  return getLogEntries().length - 1;
 }
 
 // synchronous
@@ -53,7 +53,6 @@ function serveError(res) {
 }
 
 exports.getFile = function(id, req, res) {
-  id--;
   var log = getLogEntries();
   if (id == 'head' | id == 'current') {
     if (log.length > 0) {
