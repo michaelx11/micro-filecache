@@ -47,15 +47,10 @@ function serveFile(id, filename, res) {
   fileStream.pipe(res);
 }
 
-function serveError(res) {
-  res.write('404 Not Found\n');
-  res.end();
-}
-
 exports.getFile = function(req, res) {
   var id = req.params.id;
   if (!id) {
-    serveError(res);
+    res.status(404).send('File not found!');
     return;
   }
 
@@ -69,11 +64,16 @@ exports.getFile = function(req, res) {
   }
 
   if (id >= 0 && id < log.length) {
-    serveFile(id, log[id].filename, res);
-    console.log('Served: ' + log[id].filename + ' at id: ' + id);
-  } else {
-    serveError(res);
+    if (fs.existsSync('data/' + id)) {
+      console.log('Served: ' + log[id].filename + ' at id: ' + id);
+      serveFile(id, log[id].filename, res);
+      return;
+    } else {
+      res.status(404).send('File too old!');
+      return;
+    }
   }
+  res.status(404).send('File not found!');
 }
 
 exports.getList = function() {
