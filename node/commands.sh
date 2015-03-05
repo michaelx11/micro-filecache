@@ -1,3 +1,4 @@
+# Usage- mstore (path)
 mstore () {
   if [[ $# -eq 0 ]] ; then
     echo "Missing filepath"
@@ -6,6 +7,9 @@ mstore () {
   curl -F filedata=@$1 http://m.xvm.mit.edu/upload
 }
 
+
+# Usage- mload (index)
+# if no index, loads current
 mload () {
   if [[ $# -eq 0 ]] ; then
     echo "trying one"
