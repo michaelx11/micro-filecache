@@ -3,6 +3,9 @@ var exec = require('child_process').exec;
 
 exec('mkdir -p data');
 
+// 100 mb
+var SIZE_LIMIT = 4294967296 * 100;
+
 // returns array of log entries {filename: "", index: ""}
 function getLogEntries() {
   var logFile = fs.readFileSync('logfile.txt', {encoding: "utf-8"});
@@ -25,20 +28,24 @@ function appendToLogFile(filename, filesize) {
 // synchronous
 exports.uploadFile = function(filedata) {
   if (!filedata) {
-    return -1;
+    return "Error!";
   }
   var filename = filedata.originalFilename;
   var path = filedata.path;
   var numBytes = filedata.size;
 
   if (!filename || !path) {
-    return -1;
+    return "Error!";
+  }
+
+  if (numBytes > SIZE_LIMIT) {
+    return "Error!";
   }
 
   var entryIndex = appendToLogFile(filename, numBytes);
   exec('cp ' + path + ' data/' + entryIndex);
   console.log('uploaded: ' + filename + ' index: ' + entryIndex);
-  return entryIndex;
+  return "index: " + entryIndex + ", url: store.haus/" + entryIndex;
 }
 
 function serveFile(id, filename, res) {
