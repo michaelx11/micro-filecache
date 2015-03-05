@@ -4,7 +4,7 @@ mstore () {
     echo "Missing filepath"
     return 0;
   fi
-  curl -F filedata=@$1 http://m.xvm.mit.edu/upload
+  curl -F filedata=@$1 http://store.haus/upload
 }
 
 
@@ -13,12 +13,12 @@ mstore () {
 mload () {
   if [[ $# -eq 0 ]] ; then
     echo "trying one"
-    wget --content-disposition http://m.xvm.mit.edu/current
+    wget --content-disposition http://store.haus/current
     return 0;
   fi
-  wget --content-disposition http://m.xvm.mit.edu/$1
+  wget --content-disposition http://store.haus/$1
 }
 
 mlist() {
-  curl http://m.xvm.mit.edu/list
+  curl http://store.haus/list
 }
