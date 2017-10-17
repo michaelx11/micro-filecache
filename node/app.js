@@ -18,7 +18,7 @@ app.use(bodyParser());
 app.use(express.static(__dirname + '/public'));
 
 app.use(function(req, res, next) {
-  if (req.params.token === config.SECRET) {
+  if (req.headers['x-auth'] === config.SECRET) {
     next();
   } else {
     res.status(403).send();
