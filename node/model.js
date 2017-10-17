@@ -52,7 +52,7 @@ exports.uploadFile = function(filedata) {
   var entryIndex = appendToLogFile(filename, numBytes);
   exec('cp ' + path + ' data/' + entryIndex);
   console.log('uploaded: ' + filename + ' index: ' + entryIndex);
-  return "index: " + entryIndex + ", url: store.haus/" + entryIndex;
+  return "index: " + entryIndex + ", url: {host}/" + entryIndex;
 }
 
 function serveFile(id, filename, res) {
