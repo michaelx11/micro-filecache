@@ -19,7 +19,7 @@ app.use(morgan('dev'));
 app.use(bodyParser());
 app.use(connectMultiparty());
 
-TOKEN_EXPIRATION = 5 * 60 * 1000; // 5 minutes
+TOKEN_EXPIRATION = 2 * 60 * 1000; // 2 minutes
 // To be filled with a temporary token that lasts at most 5 minutes
 var tempTokenObj = {
   creationTime: 0,
