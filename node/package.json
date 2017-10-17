@@ -6,7 +6,7 @@
     "start": "nodejs app.js"
   },
   "dependencies": {
-    "express": "*",
+    "express": "4.16.2",
     "request": "*",
     "hbs": "*"
   }
