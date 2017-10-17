@@ -6,7 +6,7 @@ mauth () {
   printf "Input secret token: "
   read secret_token
   # Perform check
-  curl -sf -H "x-auth: $secret_token" $target_url
+  curl -sfH "x-auth: $secret_token" $target_url
   if [[ $? -ne 0 ]]; then
     echo "Failed to connect to server"
     exit 1
