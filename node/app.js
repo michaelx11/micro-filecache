@@ -57,7 +57,7 @@ app.get('/temp_auth', function(req, res) {
     var tempToken = buf.toString('hex');
     tempTokenObj.token = tempToken;
     tempTokenObj.creationTime = (new Date()).getTime();
-    res.send("Token: " + tempToken + " expires in 5 minutes.\n");
+    res.send("Token: " + tempToken + " expires in 2 minutes.\n");
   });
 });
 
