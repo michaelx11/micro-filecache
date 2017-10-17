@@ -1,24 +1,51 @@
 # Usage- mstore (path)
+
+mauth () {
+  printf "Target server URL: "
+  read target_url
+  printf "Input secret token: "
+  read secret_token
+  # Perform check
+  curl -sf -H "x-auth: $secret_token" $target_url
+  if [[ $? -ne 0 ]]; then
+    echo "Failed to connect to server"
+    exit 1
+  fi
+
+  mkdir -p ~/.mstore_creds
+  echo $target_url > ~/.mstore_creds/url
+  echo $secret_token > ~/.mstore_creds/secret
+  echo "Installed credentials."
+}
+
 mstore () {
   if [[ $# -eq 0 ]] ; then
     echo "Missing filepath"
     return 0;
   fi
-  curl -F filedata=@$1 http://store.haus/upload
+  target_url=`cat ~/.mstore_creds/url`
+  secret_token=`cat ~/.mstore_creds/secret`
+  curl -H "x-auth: $secret_token" -F filedata=@$1 ${target_url}/upload
 }
-
 
 # Usage- mload (index)
 # if no index, loads current
 mload () {
+  target_url=`cat ~/.mstore_creds/url`
+  secret_token=`cat ~/.mstore_creds/secret`
   if [[ $# -eq 0 ]] ; then
     echo "trying one"
-    wget --content-disposition http://store.haus/current
+    wget --header="x-auth: $secret_token" --content-disposition ${target_url}/current
     return 0;
   fi
-  wget --content-disposition http://store.haus/$1
+  wget --header="x-auth: $secret_token" --content-disposition ${target_url}/$1
 }
 
 mlist() {
-  curl http://store.haus/list
+  target_url=`cat ~/.mstore_creds/url`
+  secret_token=`cat ~/.mstore_creds/secret`
+  curl -fH "x-auth: $secret_token" ${target_url}/list
+  if [[ $? -ne 0 ]]; then
+    echo "Failed to connect"
+  fi
 }
