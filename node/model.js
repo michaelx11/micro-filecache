@@ -3,12 +3,19 @@ var exec = require('child_process').exec;
 
 exec('mkdir -p data');
 
-// 100 mb
-var SIZE_LIMIT = 4294967296 * 100;
+// 250 mb
+var SIZE_LIMIT = 250 * 1024 * 1024 * 1024;
+
+let LOG_FILENAME = 'logfile.txt'
 
 // returns array of log entries {filename: "", index: ""}
 function getLogEntries() {
-  var logFile = fs.readFileSync('logfile.txt', {encoding: "utf-8"});
+  // If the file doesn't exist, create a blank one!
+  if (!fs.existsSync(LOG_FILENAME)) {
+    let fd = fs.openSync(LOG_FILENAME, "a");
+    fs.closeSync(fd);
+  }
+  var logFile = fs.readFileSync(LOG_FILENAME, {encoding: "utf-8"});
   var entries = logFile.trim().split("\n");
   var log = [];
   for (var i in entries) {
@@ -21,7 +28,7 @@ function getLogEntries() {
 
 // returns index
 function appendToLogFile(filename, filesize) {
-  fs.appendFileSync("logfile.txt", filename + " -%%- " + filesize + "\n");
+  fs.appendFileSync(LOG_FILENAME, filename + " -%%- " + filesize + "\n");
   return getLogEntries().length - 1;
 }
 
