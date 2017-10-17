@@ -6,13 +6,13 @@ exec('mkdir -p data');
 // 250 mb
 var SIZE_LIMIT = 250 * 1024 * 1024 * 1024;
 
-let LOG_FILENAME = 'logfile.txt'
+var LOG_FILENAME = 'logfile.txt'
 
 // returns array of log entries {filename: "", index: ""}
 function getLogEntries() {
   // If the file doesn't exist, create a blank one!
   if (!fs.existsSync(LOG_FILENAME)) {
-    let fd = fs.openSync(LOG_FILENAME, "a");
+    var fd = fs.openSync(LOG_FILENAME, "a");
     fs.closeSync(fd);
   }
   var logFile = fs.readFileSync(LOG_FILENAME, {encoding: "utf-8"});
