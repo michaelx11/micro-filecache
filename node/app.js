@@ -1,5 +1,6 @@
 var bodyParser = require('body-parser');
 var config = require('./config');
+var connectMultiparty = require('connect-multiparty');
 var express = require('express');
 var http = require('express');
 var hbs = require('hbs');
@@ -15,6 +16,7 @@ app.engine('html', require('hbs').__express);
 
 app.use(morgan('dev'));
 app.use(bodyParser());
+app.use(connectMultiparty());
 app.use(express.static(__dirname + '/public'));
 
 app.use(function(req, res, next) {
@@ -35,7 +37,7 @@ app.post('/upload', function(req, res) {
 });
 
 app.get('/list', function(req, res) {
-  res.setHeader('Content-Type: text/plain'), 
+  res.setHeader('Content-Type', 'text/plain'), 
   res.write(model.getList(req, res));
   res.end();
 });
