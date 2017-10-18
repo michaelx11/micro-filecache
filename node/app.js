@@ -43,6 +43,15 @@ app.use(function(req, res, next) {
   }
 });
 
+// A bit of duplication, but strict check for /temp_auth
+app.use('/temp_auth', function(req, res, next) {
+  if (req.headers['x-auth'] === config.SECRET) {
+    next();
+  } else {
+    res.status(403).send();
+  }
+});
+
 app.get('/', function(req, res) {
   res.end();
 });
