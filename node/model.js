@@ -50,7 +50,7 @@ exports.uploadFile = function(filedata) {
   }
 
   var entryIndex = appendToLogFile(filename, numBytes);
-  exec('cp ' + path + ' data/' + entryIndex);
+  exec('mv ' + path + ' data/' + entryIndex);
   console.log('uploaded: ' + filename + ' index: ' + entryIndex);
   return "index: " + entryIndex + ", url: {host}/" + entryIndex;
 }
