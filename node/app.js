@@ -3,10 +3,14 @@ var config = require('./config');
 var connectMultiparty = require('connect-multiparty');
 var crypto = require('crypto');
 var express = require('express');
-var http = require('express');
 var hbs = require('hbs');
+var http = require('express');
 var model = require('./model');
 var morgan = require('morgan');
+var randtoken = require('rand-token').generator({
+  chars: 'abcdefghijklmnopqrstuvwxyz0123456789',
+  source: crypto.randomBytes
+});
 
 var app = express();
 
@@ -57,17 +61,10 @@ app.get('/', function(req, res) {
 });
 
 app.get('/temp_auth', function(req, res) {
-  crypto.randomBytes(4, function (ex, buf) {
-    if (ex) {
-      // Server error!
-      res.status(500).send(ex);
-      return;
-    }
-    var tempToken = buf.toString('hex');
-    tempTokenObj.token = tempToken;
-    tempTokenObj.creationTime = (new Date()).getTime();
-    res.send("Token: " + tempToken + " expires in 2 minutes.\n");
-  });
+  var tempToken = randtoken.generate(8);
+  tempTokenObj.token = tempToken;
+  tempTokenObj.creationTime = (new Date()).getTime();
+  res.send("Token: " + tempToken + " expires in 2 minutes.\n");
 });
 
 app.post('/upload', function(req, res) {
