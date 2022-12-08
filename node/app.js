@@ -57,7 +57,7 @@ app.use('/temp_auth', function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-  res.end();
+  res.render('index.html', {token: req.query.token});
 });
 
 app.get('/temp_auth', function(req, res) {
@@ -73,7 +73,7 @@ app.post('/upload', function(req, res) {
 });
 
 app.get('/list', function(req, res) {
-  res.setHeader('Content-Type', 'text/plain'), 
+  res.setHeader('Content-Type', 'text/plain'),
   res.write(model.getList(req, res));
   res.end();
 });
